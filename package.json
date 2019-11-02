@@ -1,0 +1,54 @@
+{
+  "name": "zenvim",
+  "displayName": "zenvim",
+  "description": "vim for vscode",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.39.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "keybindings": [
+      {
+        "key": "Escape",
+        "command": "zenvim.escapeKey",
+        "when": "editorTextFocus && !zenvim.mode:normal"
+      },
+      {
+        "key": "ctrl+[",
+        "command": "zenvim.escapeKey",
+        "when": "editorTextFocus && !zenvim.mode:normal"
+      }
+    ]
+  },
+  "enableProposedApi": true,
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.1.1",
+    "@types/mocha": "^5.2.6",
+    "@types/node": "^10.12.21",
+    "@types/vscode": "^1.39.0",
+    "@typescript-eslint/eslint-plugin": "^2.6.0",
+    "@typescript-eslint/parser": "^2.6.0",
+    "eslint": "^6.6.0",
+    "eslint-config-prettier": "^6.5.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "glob": "^7.1.4",
+    "mocha": "^6.1.4",
+    "prettier": "^1.18.2",
+    "typescript": "^3.3.1",
+    "vscode-test": "^1.2.0"
+  }
+}
