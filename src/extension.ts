@@ -1,6 +1,13 @@
 import * as vscode from 'vscode'
-import { state, setMode, setStatusBarItem, type } from './state'
-import { Mode } from './types'
+import {
+  state,
+  setMode,
+  setRegisterMode,
+  setStatusBarItem,
+  type
+} from './state'
+import { Mode, RegisterMode } from './types'
+import { yank } from './lib/clipbord'
 
 export function activate(context: vscode.ExtensionContext) {
   const actual = vscode.window.createStatusBarItem(
@@ -28,13 +35,30 @@ export function activate(context: vscode.ExtensionContext) {
         return
       }
 
-      type(vscode.window.activeTextEditor, e.text)
+      try {
+        type(vscode.window.activeTextEditor, e.text)
+      } catch (e) {
+        console.error(e)
+      }
     })
   )
 
   context.subscriptions.push(
     vscode.commands.registerCommand('zenvim.escapeKey', () => {
       setMode(Mode.NORMAL)
+    })
+  )
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand('cut', () => {
+      setRegisterMode(RegisterMode.Char)
+      vscode.commands.executeCommand('default:cut')
+    })
+  )
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand('zenvim.copy', () => {
+      yank()
     })
   )
 }

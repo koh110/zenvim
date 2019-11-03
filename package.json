@@ -24,6 +24,16 @@
         "key": "ctrl+[",
         "command": "zenvim.escapeKey",
         "when": "editorTextFocus && !zenvim.mode:normal"
+      },
+      {
+        "key": "cmd+c",
+        "command": "zenvim.copy",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+c",
+        "command": "zenvim.copy",
+        "when": "editorTextFocus"
       }
     ]
   },

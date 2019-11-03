@@ -1,24 +1,28 @@
 import * as vscode from 'vscode'
-import { Mode } from './types'
-import { hasCommand, run } from './mapping'
+import { Mode, RegisterMode } from './types'
+import { hasCommand, run } from './mapping/index'
 
 type State = {
   mode: Mode
   composedText: string
   statusBarItem: vscode.StatusBarItem | null
+  anchorPosition: vscode.Position
+  registerMode: RegisterMode
 }
 
 export const state: State = {
   mode: Mode.NORMAL,
   composedText: '',
-  statusBarItem: null
+  statusBarItem: null,
+  anchorPosition: new vscode.Position(0, 0),
+  registerMode: RegisterMode.Char
 }
 
 export function type(editor: vscode.TextEditor, text: string) {
   let composedText = state.composedText + text.trim()
 
-  if (hasCommand(composedText)) {
-    const res = run(editor, composedText)
+  if (hasCommand(state.mode, composedText)) {
+    const res = run(state.mode, editor, composedText)
     if (res.run) {
       composedText = ''
     }
@@ -29,23 +33,27 @@ export function type(editor: vscode.TextEditor, text: string) {
   state.composedText = composedText
 }
 
+export function setRegisterMode(registerMode: RegisterMode) {
+  state.registerMode = registerMode
+}
+
 function setCursorStyle(mode: Mode) {
   if (!vscode.window.activeTextEditor) {
     return
   }
-  let cursorStyle = vscode.TextEditorCursorStyle.Line
-  if (mode === Mode.NORMAL) {
-    cursorStyle = vscode.TextEditorCursorStyle.Block
+  let cursorStyle = vscode.TextEditorCursorStyle.Block
+  if (mode === Mode.INSERT) {
+    cursorStyle = vscode.TextEditorCursorStyle.Line
   }
   vscode.window.activeTextEditor.options = {
     cursorStyle: cursorStyle
   }
 }
 
-export function setMode(mode: Mode) {
+export async function setMode(mode: Mode) {
   state.mode = mode
 
-  vscode.commands.executeCommand(
+  await vscode.commands.executeCommand(
     'setContext',
     Mode.INSERT,
     mode === Mode.INSERT
@@ -55,8 +63,11 @@ export function setMode(mode: Mode) {
 
   if (mode === Mode.INSERT) {
     setStatusBarItemText('-- INSERT --')
+  } else if (mode === Mode.VISUAL) {
+    setStatusBarItemText('-- VISUAL --')
   } else {
     setStatusBarItemText('-- NORMAL --')
+    await vscode.commands.executeCommand('cancelSelection')
   }
 }
 
@@ -69,4 +80,8 @@ function setStatusBarItemText(text: string) {
 export function setStatusBarItem(statusBar: vscode.StatusBarItem) {
   state.statusBarItem = statusBar
   statusBar.show()
+}
+
+export function setAnchorPosition(position: vscode.Position) {
+  state.anchorPosition = new vscode.Position(position.line, position.character)
 }
