@@ -8,6 +8,7 @@ import {
 } from './state'
 import { Mode, RegisterMode } from './types'
 import { yank } from './lib/clipbord'
+import { parseKey } from './mapping/common'
 
 export function activate(context: vscode.ExtensionContext) {
   const actual = vscode.window.createStatusBarItem(
@@ -22,45 +23,55 @@ export function activate(context: vscode.ExtensionContext) {
     setMode(Mode.NORMAL)
   })
 
-  context.subscriptions.push(
-    vscode.commands.registerCommand('type', e => {
-      if (!vscode.window.activeTextEditor) {
-        return
-      }
+  function register(key: string, handler: (...args: any[]) => void) {
+    context.subscriptions.push(vscode.commands.registerCommand(key, handler))
+  }
 
-      if (state.mode === Mode.INSERT) {
-        vscode.commands.executeCommand('default:type', {
-          text: e.text
-        })
-        return
-      }
+  register('type', e => {
+    if (!vscode.window.activeTextEditor) {
+      return
+    }
 
+    if (state.mode === Mode.INSERT) {
+      vscode.commands.executeCommand('default:type', {
+        text: e.text
+      })
+      return
+    }
+
+    try {
+      type(vscode.window.activeTextEditor, e.text)
+    } catch (error) {
+      console.error(error)
+    }
+  })
+
+  register('cut', () => {
+    setRegisterMode(RegisterMode.Char)
+    vscode.commands.executeCommand('default:cut')
+  })
+
+  register('zenvim.escapeKey', () => setMode(Mode.NORMAL))
+
+  register('zenvim.copy', () => yank())
+
+  function registerCtrlKey(commandName: string, key: string) {
+    register(commandName, () => {
       try {
-        type(vscode.window.activeTextEditor, e.text)
+        const editor = vscode.window.activeTextEditor
+        if (!editor) {
+          return
+        }
+        type(editor, parseKey(key, { ctrl: true }))
       } catch (e) {
         console.error(e)
       }
     })
-  )
-
-  context.subscriptions.push(
-    vscode.commands.registerCommand('zenvim.escapeKey', () => {
-      setMode(Mode.NORMAL)
-    })
-  )
-
-  context.subscriptions.push(
-    vscode.commands.registerCommand('cut', () => {
-      setRegisterMode(RegisterMode.Char)
-      vscode.commands.executeCommand('default:cut')
-    })
-  )
-
-  context.subscriptions.push(
-    vscode.commands.registerCommand('zenvim.copy', () => {
-      yank()
-    })
-  )
+  }
+  registerCtrlKey('zenvim.ctrl+e', 'e')
+  registerCtrlKey('zenvim.ctrl+y', 'y')
+  registerCtrlKey('zenvim.ctrl+f', 'f')
+  registerCtrlKey('zenvim.ctrl+b', 'b')
 }
 
 // this method is called when your extension is deactivated

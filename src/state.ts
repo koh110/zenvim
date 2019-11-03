@@ -53,10 +53,15 @@ function setCursorStyle(mode: Mode) {
 export async function setMode(mode: Mode) {
   state.mode = mode
 
-  await vscode.commands.executeCommand(
+  vscode.commands.executeCommand(
     'setContext',
     Mode.INSERT,
     mode === Mode.INSERT
+  )
+  vscode.commands.executeCommand(
+    'setContext',
+    Mode.NORMAL,
+    mode === Mode.NORMAL
   )
 
   setCursorStyle(mode)
@@ -65,6 +70,8 @@ export async function setMode(mode: Mode) {
     setStatusBarItemText('-- INSERT --')
   } else if (mode === Mode.VISUAL) {
     setStatusBarItemText('-- VISUAL --')
+  } else if (mode === Mode.VISUAL_LINE) {
+    setStatusBarItemText('-- VISUAL LINE --')
   } else {
     setStatusBarItemText('-- NORMAL --')
     await vscode.commands.executeCommand('cancelSelection')

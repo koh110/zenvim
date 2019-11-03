@@ -1,40 +1,45 @@
 import * as vscode from 'vscode'
 import { bind as bindBase, RunFunction, BindOptions, Mapping } from './common'
 import {
-  moveCursor,
-  jumpToTop,
-  jumpToBottom,
+  jumpCursor,
   jumpToCurrentStartOfLine,
   jumpToCurrentEndOfLine,
   jumpToNextWord,
-  jumpToPrevWord
+  jumpToPrevWord,
+  jumpToTop,
+  jumpToBottom
 } from '../lib/cursor'
 import { yank, cut, paste } from '../lib/clipbord'
 import { hasSelection } from '../lib/editor'
 import { state, setMode } from '../state'
-import { Mode } from '../types'
+import { Mode, RegisterMode } from '../types'
 
 export const mapping: Mapping = { commands: '', mapping: {} }
 
 function bind(key: string, run: RunFunction, options?: BindOptions) {
   bindBase(mapping, key, run, options)
 }
-
 function getSelectOptions() {
-  return { select: true, anchor: state.anchorPosition }
+  return { selectLine: true, anchor: state.anchorPosition }
 }
 
-// mode
-bind('A', editor => {
-  jumpToCurrentEndOfLine(editor)
-  setMode(Mode.INSERT)
-})
-
 // cursor
-bind('h', () => moveCursor({ to: 'left', select: true }))
-bind('l', () => moveCursor({ to: 'right', select: true }))
-bind('j', () => moveCursor({ to: 'down', select: true }))
-bind('k', () => moveCursor({ to: 'up', select: true }))
+bind('h', editor => {
+  const { line, character } = editor.selection.active
+  jumpCursor(editor, line, character - 1, getSelectOptions())
+})
+bind('l', editor => {
+  const { line, character } = editor.selection.active
+  jumpCursor(editor, line, character + 1, getSelectOptions())
+})
+bind('j', editor => {
+  const { line, character } = editor.selection.active
+  jumpCursor(editor, line + 1, character, getSelectOptions())
+})
+bind('k', editor => {
+  const { line, character } = editor.selection.active
+  jumpCursor(editor, line - 1, character, getSelectOptions())
+})
 bind('gg', editor => jumpToTop(editor, getSelectOptions()))
 bind('G', editor => jumpToBottom(editor, getSelectOptions()))
 bind('0', editor => jumpToCurrentStartOfLine(editor, getSelectOptions()))
@@ -49,7 +54,7 @@ bind('u', () => vscode.commands.executeCommand('undo'))
 bind(
   'y',
   () => {
-    yank()
+    yank({ registerMode: RegisterMode.Line })
     setMode(Mode.NORMAL)
   },
   { when: editor => hasSelection(editor) }
@@ -57,7 +62,7 @@ bind(
 bind(
   'd',
   editor => {
-    cut(editor)
+    cut(editor, { registerMode: RegisterMode.Line })
     setMode(Mode.NORMAL)
   },
   { when: editor => hasSelection(editor) }

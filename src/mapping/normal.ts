@@ -1,6 +1,7 @@
 import * as vscode from 'vscode'
 import { Mode } from '../types'
 import { setMode, setAnchorPosition } from '../state'
+import { bind as bindBase, RunFunction, BindOptions, Mapping } from './common'
 import {
   moveCursor,
   jumpToCurrentStartOfLine,
@@ -10,23 +11,22 @@ import {
   jumpToTop,
   jumpToBottom
 } from '../lib/cursor'
-import { yankLine, yankLineAndDelete, paste, yank, cut } from '../lib/clipbord'
+import { yankLine, yankLineAndDelete, paste } from '../lib/clipbord'
 import { hasSelection } from '../lib/editor'
-import { bind as bindBase, RunFunction, WhenFunction, Mapping } from './common'
 
 export const mapping: Mapping = { commands: '', mapping: {} }
 
-function bind(key: string, run: RunFunction, when?: WhenFunction) {
-  if (when) {
-    bindBase(mapping, key, run, when)
-    return
-  }
-  bindBase(mapping, key, run)
+function bind(key: string, run: RunFunction, options?: BindOptions) {
+  bindBase(mapping, key, run, options)
 }
 
 // mode
 bind('v', editor => {
   setMode(Mode.VISUAL)
+  setAnchorPosition(editor.selection.active)
+})
+bind('V', editor => {
+  setMode(Mode.VISUAL_LINE)
   setAnchorPosition(editor.selection.active)
 })
 bind('i', () => setMode(Mode.INSERT))
@@ -42,6 +42,16 @@ bind('O', async () => {
   await vscode.commands.executeCommand('editor.action.insertLineBefore')
   setMode(Mode.INSERT)
 })
+
+// scroll
+bind('e', () => vscode.commands.executeCommand('scrollLineDown'), {
+  ctrl: true
+})
+bind('y', () => vscode.commands.executeCommand('scrollLineUp'), { ctrl: true })
+bind('f', () => vscode.commands.executeCommand('scrollPageDown'), {
+  ctrl: true
+})
+bind('b', () => vscode.commands.executeCommand('scrollPageUp'), { ctrl: true })
 
 // cursor
 bind('h', () => moveCursor({ to: 'left' }))
@@ -59,6 +69,10 @@ bind('b', editor => jumpToPrevWord(editor))
 bind('u', () => vscode.commands.executeCommand('undo'))
 
 // clipboard
-bind('yy', editor => yankLine(editor), editor => !hasSelection(editor))
-bind('dd', editor => yankLineAndDelete(editor), editor => !hasSelection(editor))
+bind('yy', editor => yankLine(editor), {
+  when: editor => !hasSelection(editor)
+})
+bind('dd', editor => yankLineAndDelete(editor), {
+  when: editor => !hasSelection(editor)
+})
 bind('p', editor => paste(editor))

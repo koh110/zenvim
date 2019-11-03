@@ -3,17 +3,24 @@ import { Mode } from '../types'
 import { Mapping } from './common'
 import { mapping as normalMapping } from './normal'
 import { mapping as vusualMapping } from './visual'
+import { mapping as visualLineMapping } from './visualLine'
 
 const keyMapping: { [key: string]: Mapping } = {
   [Mode.NORMAL]: normalMapping,
-  [Mode.VISUAL]: vusualMapping
+  [Mode.VISUAL]: vusualMapping,
+  [Mode.VISUAL_LINE]: visualLineMapping
+}
+
+export function getKeyMapping() {
+  return keyMapping
 }
 
 export function hasCommand(mode: Mode, text: string) {
   const commands = keyMapping[mode].commands
   // escape
-  if (['$'].includes(text)) {
-    text = '\\' + text
+  const regexp = /[$+]/g
+  if (regexp.test(text)) {
+    text = text.replace(/[$+]/g, '\\$&')
   }
   if (!text) {
     return false

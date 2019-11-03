@@ -30,12 +30,21 @@ export async function yankLineAndDelete(editor: TextEditor) {
   await commands.executeCommand('editor.action.deleteLines')
 }
 
-export async function yank() {
-  await commands.executeCommand('editor.action.clipboardCopyAction')
-  setRegisterMode(RegisterMode.Char)
+type RegisterOptions = {
+  registerMode: RegisterMode
 }
 
-export async function cut(editor: TextEditor) {
+export async function yank(options?: RegisterOptions) {
+  await commands.executeCommand('editor.action.clipboardCopyAction')
+
+  if (options && options.registerMode) {
+    setRegisterMode(options.registerMode)
+  } else {
+    setRegisterMode(RegisterMode.Char)
+  }
+}
+
+export async function cut(editor: TextEditor, options?: RegisterOptions) {
   await editor.edit(editBuilder => {
     // copy
     const text = editor.document.getText(editor.selection)
@@ -44,7 +53,12 @@ export async function cut(editor: TextEditor) {
     // delete
     editBuilder.replace(editor.selection, '')
   })
-  setRegisterMode(RegisterMode.Char)
+
+  if (options && options.registerMode) {
+    setRegisterMode(options.registerMode)
+  } else {
+    setRegisterMode(RegisterMode.Char)
+  }
 }
 
 export async function paste(editor: TextEditor) {

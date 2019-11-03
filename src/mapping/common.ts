@@ -13,16 +13,33 @@ export type Mapping = {
   }
 }
 
+type ParseOption = {
+  ctrl?: boolean
+}
+
+export function parseKey(key: string, options: ParseOption) {
+  if (options.ctrl) {
+    return `<C-${key}>`
+  }
+  return key
+}
+
+export type BindOptions = {
+  when?: WhenFunction
+  ctrl?: boolean
+}
+
 export function bind(
   mapping: Mapping,
   key: string,
   run: RunFunction,
-  when?: WhenFunction
+  options?: BindOptions
 ): Mapping {
+  key = parseKey(key, { ctrl: options ? options.ctrl : false })
   mapping.mapping[key] = { run: run, when: () => true }
   mapping.commands = Object.keys(mapping.mapping).join('__')
-  if (when) {
-    mapping.mapping[key].when = when
+  if (options && options.when) {
+    mapping.mapping[key].when = options.when
   }
   return mapping
 }

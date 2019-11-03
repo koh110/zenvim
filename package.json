@@ -34,6 +34,21 @@
         "key": "ctrl+c",
         "command": "zenvim.copy",
         "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+e",
+        "command": "zenvim.ctrl+e",
+        "when": "editorTextFocus && !zenvim.mode:insert"
+      },
+      {
+        "key": "ctrl+f",
+        "command": "zenvim.ctrl+f",
+        "when": "editorTextFocus && !zenvim.mode:insert"
+      },
+      {
+        "key": "ctrl+b",
+        "command": "zenvim.ctrl+b",
+        "when": "editorTextFocus && !zenvim.mode:insert"
       }
     ]
   },
