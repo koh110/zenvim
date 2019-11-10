@@ -28,11 +28,16 @@ export function jumpCursor(
   charactor: number,
   options?: SelectOption
 ) {
+  if (line < 0 || editor.document.lineCount < line) {
+    return
+  }
+
+  let anchor = null
+  let active = null
+
   if (options && options.select) {
-    editor.selection = new Selection(
-      options.anchor,
-      new Position(line, charactor)
-    )
+    anchor = options.anchor
+    active = new Position(line, charactor)
   } else if (options && options.selectLine) {
     const anchorChar =
       options.anchor.line < line
@@ -40,16 +45,14 @@ export function jumpCursor(
         : editor.document.lineAt(options.anchor.line).text.length
     const activeChar =
       options.anchor.line < line ? editor.document.lineAt(line).text.length : 0
-    editor.selection = new Selection(
-      new Position(options.anchor.line, anchorChar),
-      new Position(line, activeChar)
-    )
+    anchor = new Position(options.anchor.line, anchorChar)
+    active = new Position(line, activeChar)
   } else {
-    editor.selection = new Selection(
-      new Position(line, charactor),
-      new Position(line, charactor)
-    )
+    anchor = new Position(line, charactor)
+    active = new Position(line, charactor)
   }
+
+  editor.selection = new Selection(anchor, active)
 
   editor.revealRange(
     new Range(line, charactor, line, charactor),
@@ -94,6 +97,7 @@ export function jumpToCurrentEndOfLine(
   if (options && (options.select || options.selectLine)) {
     const line = editor.selection.active.line
     jumpCursor(editor, line, editor.document.lineAt(line).text.length, options)
+    moveCursor({ to: 'right', select: true })
     return
   }
   commands.executeCommand('cursorEnd')
@@ -102,27 +106,22 @@ export function jumpToCurrentEndOfLine(
 export function jumpToNextWord(editor: TextEditor, options?: SelectOption) {
   const nextWord = findNextWord(editor.document, editor.selection.active)
   if (nextWord) {
-    const line = editor.selection.active.line
-    const char = nextWord.start
     if (options && options.select) {
-      jumpCursor(editor, line, char, options)
+      jumpCursor(editor, nextWord.line, nextWord.character, options)
       return
     }
-    jumpCursor(editor, line, char)
+    jumpCursor(editor, nextWord.line, nextWord.character)
     return
   }
-  jumpToCurrentEndOfLine(editor)
 }
 
 export function jumpToPrevWord(editor: TextEditor, options?: SelectOption) {
   const prevWord = findPrevWord(editor.document, editor.selection.active)
   if (prevWord) {
-    const line = editor.selection.active.line
-    const char = prevWord.start
     if (options && options.select) {
-      jumpCursor(editor, line, char, options)
+      jumpCursor(editor, prevWord.line, prevWord.character, options)
       return
     }
-    jumpCursor(editor, line, char)
+    jumpCursor(editor, prevWord.line, prevWord.character)
   }
 }

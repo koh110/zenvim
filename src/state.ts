@@ -44,6 +44,8 @@ function setCursorStyle(mode: Mode) {
   let cursorStyle = vscode.TextEditorCursorStyle.Block
   if (mode === Mode.INSERT) {
     cursorStyle = vscode.TextEditorCursorStyle.Line
+  } else if (mode === Mode.VISUAL) {
+    cursorStyle = vscode.TextEditorCursorStyle.LineThin
   }
   vscode.window.activeTextEditor.options = {
     cursorStyle: cursorStyle

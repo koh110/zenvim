@@ -2,19 +2,11 @@ import { commands, env, TextEditor, Position, Selection } from 'vscode'
 import { state, setRegisterMode } from '../state'
 import { RegisterMode } from '../types'
 import { jumpCursor } from './cursor'
+import { lineSelection } from './editor'
 
 export async function yankLine(editor: TextEditor) {
-  // line selection
   const position = editor.selection.active
-  const newSelection = new Selection(
-    new Position(position.line, 0),
-    new Position(
-      position.line,
-      editor.document.lineAt(position.line).text.length
-    )
-  )
-  editor.selection = newSelection
-
+  lineSelection(editor)
   // copy
   const text = editor.document.getText(editor.selection)
   env.clipboard.writeText(text)

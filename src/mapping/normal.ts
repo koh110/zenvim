@@ -11,8 +11,8 @@ import {
   jumpToTop,
   jumpToBottom
 } from '../lib/cursor'
-import { yankLine, yankLineAndDelete, paste } from '../lib/clipbord'
-import { hasSelection } from '../lib/editor'
+import { yankLine, yankLineAndDelete, paste, cut } from '../lib/clipbord'
+import { hasSelection, lineSelection } from '../lib/editor'
 
 export const mapping: Mapping = { commands: '', mapping: {} }
 
@@ -27,6 +27,7 @@ bind('v', editor => {
 })
 bind('V', editor => {
   setMode(Mode.VISUAL_LINE)
+  lineSelection(editor)
   setAnchorPosition(editor.selection.active)
 })
 bind('i', () => setMode(Mode.INSERT))
@@ -75,4 +76,5 @@ bind('yy', editor => yankLine(editor), {
 bind('dd', editor => yankLineAndDelete(editor), {
   when: editor => !hasSelection(editor)
 })
+bind('x', editor => cut(editor))
 bind('p', editor => paste(editor))

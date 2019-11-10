@@ -39,7 +39,10 @@ bind('gg', editor => jumpToTop(editor, getSelectOptions()))
 bind('G', editor => jumpToBottom(editor, getSelectOptions()))
 bind('0', editor => jumpToCurrentStartOfLine(editor, getSelectOptions()))
 bind('$', editor => jumpToCurrentEndOfLine(editor, getSelectOptions()))
-bind('w', editor => jumpToNextWord(editor, getSelectOptions()))
+bind('w', editor => {
+  jumpToNextWord(editor, getSelectOptions())
+  moveCursor({ to: 'right', select: true })
+})
 bind('b', editor => jumpToPrevWord(editor, getSelectOptions()))
 
 // action
@@ -62,6 +65,10 @@ bind(
   },
   { when: editor => hasSelection(editor) }
 )
+bind('x', editor => {
+  cut(editor)
+  setMode(Mode.NORMAL)
+})
 bind('p', editor => {
   paste(editor)
   setMode(Mode.NORMAL)
