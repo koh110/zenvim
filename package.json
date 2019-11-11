@@ -3,6 +3,7 @@
   "displayName": "zenvim",
   "description": "vim for vscode",
   "version": "0.0.1",
+  "publisher": "koh110",
   "engines": {
     "vscode": "^1.39.0"
   },
@@ -48,6 +49,11 @@
       {
         "key": "ctrl+b",
         "command": "zenvim.ctrl+b",
+        "when": "editorTextFocus && !zenvim.mode:insert"
+      },
+      {
+        "key": "ctrl+r",
+        "command": "zenvim.ctrl+r",
         "when": "editorTextFocus && !zenvim.mode:insert"
       }
     ]

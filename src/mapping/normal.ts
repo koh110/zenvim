@@ -68,6 +68,9 @@ bind('b', editor => jumpToPrevWord(editor))
 
 // action
 bind('u', () => vscode.commands.executeCommand('undo'))
+bind('r', () => vscode.commands.executeCommand('redo'), {
+  ctrl: true
+})
 
 // clipboard
 bind('yy', editor => yankLine(editor), {

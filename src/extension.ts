@@ -72,6 +72,7 @@ export function activate(context: vscode.ExtensionContext) {
   registerCtrlKey('zenvim.ctrl+y', 'y')
   registerCtrlKey('zenvim.ctrl+f', 'f')
   registerCtrlKey('zenvim.ctrl+b', 'b')
+  registerCtrlKey('zenvim.ctrl+r', 'r')
 }
 
 // this method is called when your extension is deactivated

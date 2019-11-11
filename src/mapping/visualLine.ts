@@ -27,8 +27,21 @@ bind('k', editor => {
 bind('gg', editor => jumpToTop(editor, getSelectOptions()))
 bind('G', editor => jumpToBottom(editor, getSelectOptions()))
 
+// scroll
+bind('e', () => vscode.commands.executeCommand('scrollLineDown'), {
+  ctrl: true
+})
+bind('y', () => vscode.commands.executeCommand('scrollLineUp'), { ctrl: true })
+bind('f', () => vscode.commands.executeCommand('scrollPageDown'), {
+  ctrl: true
+})
+bind('b', () => vscode.commands.executeCommand('scrollPageUp'), { ctrl: true })
+
 // action
 bind('u', () => vscode.commands.executeCommand('undo'))
+bind('r', () => vscode.commands.executeCommand('redo'), {
+  ctrl: true
+})
 
 // clipboard
 bind(

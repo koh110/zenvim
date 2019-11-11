@@ -1,65 +1,76 @@
-# zenvim README
+# ZenVim
 
-This is the README for your extension "zenvim". After writing up a brief description, we recommend including the following sections.
+ZenVim is simple Vim-like extension. ZenVim provide for `Move cursor` and `Clipboard Action`.
 
-## Features
+ZenVim does not aim at perfect emulation.
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+## Mode
 
-For example if there is an image subfolder under your extension project workspace:
+ZenVim have 4 mode.
 
-\!\[feature X\]\(images/feature-x.png\)
+- NORMAL
+- INSERT
+- VISUAL
+- VISUAL_LINE
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+## Commands
 
-## Requirements
+### Mode
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+| Key | Mode                        | Description                             |
+| --- | --------------------------- | --------------------------------------- |
+| Esc | INSERT, VISUAL, VISUAL_LINE | Enter NORMAL mode                       |
+| i   | NORMAL                      | Enter INSERT mode                       |
+| A   | NORMAL, VISUAL              | Go to End of Line and Enter INSERT mode |
+| o   | NORMAL                      | Insert Line Below and Enter INSERT mode |
+| O   | NORMAL                      | Insert Line Above and Enter INSERT mode |
+| v   | NORMAL                      | Enter VISUAL mode                       |
+| V   | NORMAL                      | Enter VISUAL LINE mode                  |
 
-## Extension Settings
+### Scroll
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+| Key      | Mode                        | Description      |
+| -------- | --------------------------- | ---------------- |
+| Ctrl + e | NORMAL, VISUAL, VISUAL_LINE | Scroll Line Down |
+| Ctrl + y | NORMAL, VISUAL, VISUAL_LINE | Scroll Line Up   |
+| Ctrl + f | NORMAL, VISUAL, VISUAL_LINE | Scroll Page Down |
+| Ctrl + b | NORMAL, VISUAL, VISUAL_LINE | Scroll Page Up   |
 
-For example:
+### Cursor
 
-This extension contributes the following settings:
+| Key | Mode                        | Description             |
+| --- | --------------------------- | ----------------------- |
+| h   | NORMAL, VISUAL              | Move Cursor to Left     |
+| l   | NORMAL, VISUAL              | Move Cursor to Right    |
+| j   | NORMAL, VISUAL, VISUAL_LINE | Move Cursor to Down     |
+| k   | NORMAL, VISUAL, VISUAL_LINE | Move Cursor to Up       |
+| gg  | NORMAL, VISUAL, VISUAL_LINE | Go to Beginning of File |
+| G   | NORMAL, VISUAL, VISUAL_LINE | Go to End of File       |
+| 0   | NORMAL, VISUAL              | Go to Beginning of Line |
+| \$  | NORMAL, VISUAL              | Go to End of Line       |
+| w   | NORMAL, VISUAL              | Go to Next Word         |
+| b   | NORMAL, VISUAL              | Go to Prev Word         |
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+### Clipboard
 
-## Known Issues
+| Key | Mode                        | Description                         |
+| --- | --------------------------- | ----------------------------------- |
+| y   | VISUAL, VISUAL              | Copy Selected Characters            |
+| yy  | NORMAL, VISUAL_LINE         | Copy Line                           |
+| d   | NORMAL, VISUAL              | Copy and Delete Selected Characters |
+| dd  | NORMAL, VISUAL_LINE         | Copy and Delete Line                |
+| x   | NORMAL, VISUAL              | Copy and Delete Character on Cursor |
+| p   | NORMAL, VISUAL, VISUAL_LINE | Put Copied Characters               |
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+### Others
+
+| Key      | Mode                        | Description |
+| -------- | --------------------------- | ----------- |
+| u        | NORMAL, VISUAL, VISUAL_LINE | Undo        |
+| Ctrl + r | NORMAL, VISUAL, VISUAL_LINE | Redo        |
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
+### 0.0.1
 
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+Beta Release.
