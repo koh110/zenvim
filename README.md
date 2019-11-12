@@ -72,6 +72,11 @@ ZenVim have 4 mode.
 
 ## Release Notes
 
+### 0.1.0
+
+- add `P`
+- bugfix
+
 ### 0.0.1
 
 Beta Release.
