@@ -7,6 +7,7 @@ import {
   type
 } from './state'
 import { Mode, RegisterMode } from './types'
+import { moveCursor } from './lib/cursor'
 import { yank } from './lib/clipbord'
 import { parseKey } from './mapping/common'
 
@@ -51,9 +52,18 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.executeCommand('default:cut')
   })
 
-  register('zenvim.escapeKey', () => setMode(Mode.NORMAL))
+  register('zenvim.escapeKey', () => {
+    moveCursor({ to: 'left' })
+    setMode(Mode.NORMAL)
+  })
 
-  register('zenvim.copy', () => yank())
+  register('zenvim.copy', () => {
+    const editor = vscode.window.activeTextEditor
+    if (!editor) {
+      return
+    }
+    yank(editor)
+  })
 
   function registerCtrlKey(commandName: string, key: string) {
     register(commandName, () => {

@@ -24,6 +24,7 @@ function bind(key: string, run: RunFunction, options?: BindOptions) {
 bind('v', editor => {
   setMode(Mode.VISUAL)
   setAnchorPosition(editor.selection.active)
+  moveCursor({ to: 'right', select: true })
 })
 bind('V', editor => {
   setMode(Mode.VISUAL_LINE)
@@ -81,3 +82,4 @@ bind('dd', editor => yankLineAndDelete(editor), {
 })
 bind('x', editor => cut(editor))
 bind('p', editor => paste(editor))
+bind('P', editor => paste(editor, { beforeCursor: true }))

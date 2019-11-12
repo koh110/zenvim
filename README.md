@@ -61,6 +61,7 @@ ZenVim have 4 mode.
 | dd  | NORMAL, VISUAL_LINE         | Copy and Delete Line                |
 | x   | NORMAL, VISUAL              | Copy and Delete Character on Cursor |
 | p   | NORMAL, VISUAL, VISUAL_LINE | Put Copied Characters               |
+| P   | NORMAL, VISUAL, VISUAL_LINE | Put Copied Characters Before Cursor |
 
 ### Others
 

@@ -46,8 +46,8 @@ bind('r', () => vscode.commands.executeCommand('redo'), {
 // clipboard
 bind(
   'y',
-  () => {
-    yank({ registerMode: RegisterMode.Line })
+  editor => {
+    yank(editor, { registerMode: RegisterMode.Line })
     setMode(Mode.NORMAL)
   },
   { when: editor => hasSelection(editor) }
@@ -62,5 +62,9 @@ bind(
 )
 bind('p', editor => {
   paste(editor)
+  setMode(Mode.NORMAL)
+})
+bind('P', editor => {
+  paste(editor, { beforeCursor: true })
   setMode(Mode.NORMAL)
 })

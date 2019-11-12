@@ -7,6 +7,7 @@ import {
   TextEditorRevealType
 } from 'vscode'
 import { findNextWord, findPrevWord } from './word'
+import { lineLength } from './editor'
 
 export function moveCursor(options: {
   to: 'left' | 'right' | 'up' | 'down'
@@ -22,6 +23,41 @@ type SelectOption = {
   selectLine?: boolean
 }
 
+function jumpCursorWithSelectLine(
+  editor: TextEditor,
+  line: number,
+  charactor: number,
+  options: SelectOption
+) {
+  const anchorLineLength = lineLength(editor, options.anchor.line)
+  const activeLineLength = lineLength(editor, line)
+
+  const anchorLine = options.anchor.line
+  let anchorChar = 0
+  const activeLine = line
+  let activeChar = activeLineLength
+
+  if (activeLine === anchorLine) {
+    activeChar = activeLineLength
+  } else if (activeLine <= anchorLine) {
+    activeChar = 0
+    anchorChar = anchorLineLength
+  } else if (anchorLine < activeLine) {
+    anchorChar = 0
+    activeChar = activeLineLength
+  }
+
+  const anchor = new Position(anchorLine, anchorChar)
+  const active = new Position(activeLine, activeChar)
+
+  // jump
+  editor.selection = new Selection(anchor, active)
+  editor.revealRange(
+    new Range(line, charactor, line, charactor),
+    TextEditorRevealType.Default
+  )
+}
+
 export function jumpCursor(
   editor: TextEditor,
   line: number,
@@ -32,28 +68,22 @@ export function jumpCursor(
     return
   }
 
+  if (options && options.selectLine) {
+    jumpCursorWithSelectLine(editor, line, charactor, options)
+    return
+  }
+
   let anchor = null
-  let active = null
+  const active = new Position(line, charactor)
 
   if (options && options.select) {
     anchor = options.anchor
-    active = new Position(line, charactor)
-  } else if (options && options.selectLine) {
-    const anchorChar =
-      options.anchor.line < line
-        ? 0
-        : editor.document.lineAt(options.anchor.line).text.length
-    const activeChar =
-      options.anchor.line < line ? editor.document.lineAt(line).text.length : 0
-    anchor = new Position(options.anchor.line, anchorChar)
-    active = new Position(line, activeChar)
   } else {
     anchor = new Position(line, charactor)
-    active = new Position(line, charactor)
   }
 
+  // jump
   editor.selection = new Selection(anchor, active)
-
   editor.revealRange(
     new Range(line, charactor, line, charactor),
     TextEditorRevealType.Default

@@ -17,3 +17,7 @@ export function lineSelection(editor: TextEditor) {
   )
   editor.selection = newSelection
 }
+
+export function lineLength(editor: TextEditor, line: number): number {
+  return editor.document.lineAt(line).text.length
+}
