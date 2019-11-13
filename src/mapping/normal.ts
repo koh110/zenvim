@@ -50,10 +50,28 @@ bind('e', () => vscode.commands.executeCommand('scrollLineDown'), {
   ctrl: true
 })
 bind('y', () => vscode.commands.executeCommand('scrollLineUp'), { ctrl: true })
-bind('f', () => vscode.commands.executeCommand('scrollPageDown'), {
-  ctrl: true
-})
-bind('b', () => vscode.commands.executeCommand('scrollPageUp'), { ctrl: true })
+bind(
+  'f',
+  () => {
+    vscode.commands.executeCommand('editorScroll', {
+      to: 'down',
+      by: 'page',
+      revealCursor: true
+    })
+  },
+  { ctrl: true }
+)
+bind(
+  'b',
+  () => {
+    vscode.commands.executeCommand('editorScroll', {
+      to: 'up',
+      by: 'page',
+      revealCursor: true
+    })
+  },
+  { ctrl: true }
+)
 
 // cursor
 bind('h', () => moveCursor({ to: 'left' }))
