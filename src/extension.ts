@@ -9,6 +9,7 @@ import {
 import { Mode, RegisterMode } from './types'
 import { moveCursor } from './lib/cursor'
 import { yank } from './lib/clipbord'
+import { lineLength } from './lib/editor'
 import { parseKey } from './mapping/common'
 
 export function activate(context: vscode.ExtensionContext) {
@@ -53,8 +54,14 @@ export function activate(context: vscode.ExtensionContext) {
   })
 
   register('zenvim.escapeKey', () => {
-    moveCursor({ to: 'left' })
     setMode(Mode.NORMAL)
+    const editor = vscode.window.activeTextEditor
+    if (!editor) {
+      return
+    }
+    if (lineLength(editor, editor.selection.active.line) !== 0) {
+      moveCursor({ to: 'left' })
+    }
   })
 
   register('zenvim.copy', () => {
