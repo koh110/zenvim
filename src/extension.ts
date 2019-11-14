@@ -59,7 +59,7 @@ export function activate(context: vscode.ExtensionContext) {
     if (!editor) {
       return
     }
-    if (lineLength(editor, editor.selection.active.line) !== 0) {
+    if (editor.selection.active.character !== 0) {
       moveCursor({ to: 'left' })
     }
   })

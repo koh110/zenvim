@@ -72,6 +72,10 @@ ZenVim have 4 mode.
 
 ## Release Notes
 
+### 0.1.2
+
+- bugfix
+
 ### 0.1.1
 
 - fix `Ctrl + f`, `Ctrl + b`
