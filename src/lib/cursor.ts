@@ -124,13 +124,12 @@ export function jumpToCurrentEndOfLine(
   editor: TextEditor,
   options?: SelectOption
 ) {
+  const line = editor.selection.active.line
+  jumpCursor(editor, line, editor.document.lineAt(line).text.length, options)
   if (options && (options.select || options.selectLine)) {
-    const line = editor.selection.active.line
-    jumpCursor(editor, line, editor.document.lineAt(line).text.length, options)
     moveCursor({ to: 'right', select: true })
     return
   }
-  commands.executeCommand('cursorEnd')
 }
 
 export function jumpToNextWord(editor: TextEditor, options?: SelectOption) {
