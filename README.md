@@ -72,6 +72,10 @@ ZenVim have 4 mode.
 
 ## Release Notes
 
+### 0.2.0
+
+- add indent & outdent
+
 ### 0.1.3
 
 - fix `A`
