@@ -11,7 +11,7 @@ import {
   jumpToTop,
   jumpToBottom
 } from '../lib/cursor'
-import { yankLine, yankLineAndDelete, paste, cut } from '../lib/clipbord'
+import { yankLine, yankLineAndDelete, paste, cut } from '../lib/clipboard'
 import { hasSelection, lineSelection } from '../lib/editor'
 
 export const mapping: Mapping = { commands: '', mapping: {} }
@@ -89,6 +89,12 @@ bind('b', editor => jumpToPrevWord(editor))
 bind('u', () => vscode.commands.executeCommand('undo'))
 bind('r', () => vscode.commands.executeCommand('redo'), {
   ctrl: true
+})
+bind('>>', () => {
+  vscode.commands.executeCommand('tab')
+})
+bind('<<', () => {
+  vscode.commands.executeCommand('outdent')
 })
 
 // clipboard

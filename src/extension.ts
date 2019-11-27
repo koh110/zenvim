@@ -8,8 +8,7 @@ import {
 } from './state'
 import { Mode, RegisterMode } from './types'
 import { moveCursor } from './lib/cursor'
-import { yank } from './lib/clipbord'
-import { lineLength } from './lib/editor'
+import { yank } from './lib/clipboard'
 import { parseKey } from './mapping/common'
 
 export function activate(context: vscode.ExtensionContext) {

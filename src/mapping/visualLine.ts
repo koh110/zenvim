@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'
 import { bind as bindBase, RunFunction, BindOptions, Mapping } from './common'
 import { jumpCursor, jumpToTop, jumpToBottom } from '../lib/cursor'
-import { yank, cut, paste } from '../lib/clipbord'
+import { yank, cut, paste } from '../lib/clipboard'
 import { hasSelection } from '../lib/editor'
 import { state, setMode } from '../state'
 import { Mode, RegisterMode } from '../types'
@@ -41,6 +41,12 @@ bind('b', () => vscode.commands.executeCommand('scrollPageUp'), { ctrl: true })
 bind('u', () => vscode.commands.executeCommand('undo'))
 bind('r', () => vscode.commands.executeCommand('redo'), {
   ctrl: true
+})
+bind('>>', () => {
+  vscode.commands.executeCommand('tab')
+})
+bind('<<', () => {
+  vscode.commands.executeCommand('outdent')
 })
 
 // clipboard
