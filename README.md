@@ -72,6 +72,8 @@ ZenVim have 4 mode.
 
 ## Release Notes
 
+[CHANGELOG](./CHANGELOG.md)
+
 ### 0.2.0
 
 - add indent & outdent
@@ -79,21 +81,3 @@ ZenVim have 4 mode.
 ### 0.1.3
 
 - fix `A`
-
-### 0.1.2
-
-- bugfix
-
-### 0.1.1
-
-- fix `Ctrl + f`, `Ctrl + b`
-- fix `Esc`
-
-### 0.1.0
-
-- add `P`
-- bugfix
-
-### 0.0.1
-
-Beta Release.
