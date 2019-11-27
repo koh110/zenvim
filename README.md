@@ -69,6 +69,8 @@ ZenVim have 4 mode.
 | -------- | --------------------------- | ----------- |
 | u        | NORMAL, VISUAL, VISUAL_LINE | Undo        |
 | Ctrl + r | NORMAL, VISUAL, VISUAL_LINE | Redo        |
+| >>       | NORMAL, VISUAL, VISUAL_LINE | Indent      |
+| <<       | NORMAL, VISUAL, VISUAL_LINE | Outent      |
 
 ## Release Notes
 
