@@ -2,6 +2,12 @@
 
 All notable changes to the "zenvim" extension will be documented in this file.
 
+## [0.2.1]
+
+### Changed
+
+- fix indent & outdent when visual mode
+
 ## [0.2.0]
 
 ### Added

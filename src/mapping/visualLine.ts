@@ -1,6 +1,11 @@
 import * as vscode from 'vscode'
 import { bind as bindBase, RunFunction, BindOptions, Mapping } from './common'
-import { jumpCursor, jumpToTop, jumpToBottom } from '../lib/cursor'
+import {
+  jumpCursor,
+  jumpToTop,
+  jumpToBottom,
+  jumpToCurrentStartOfLine
+} from '../lib/cursor'
 import { yank, cut, paste } from '../lib/clipboard'
 import { hasSelection } from '../lib/editor'
 import { state, setMode } from '../state'
@@ -42,11 +47,14 @@ bind('u', () => vscode.commands.executeCommand('undo'))
 bind('r', () => vscode.commands.executeCommand('redo'), {
   ctrl: true
 })
-bind('>>', () => {
+bind('>', editor => {
+  jumpToCurrentStartOfLine(editor, getSelectOptions())
   vscode.commands.executeCommand('tab')
+  setMode(Mode.NORMAL)
 })
-bind('<<', () => {
+bind('<', () => {
   vscode.commands.executeCommand('outdent')
+  setMode(Mode.NORMAL)
 })
 
 // clipboard

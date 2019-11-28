@@ -60,11 +60,14 @@ bind('u', () => vscode.commands.executeCommand('undo'))
 bind('r', () => vscode.commands.executeCommand('redo'), {
   ctrl: true
 })
-bind('>>', () => {
+bind('>', editor => {
+  jumpToCurrentStartOfLine(editor)
   vscode.commands.executeCommand('tab')
+  setMode(Mode.NORMAL)
 })
-bind('<<', () => {
+bind('<', () => {
   vscode.commands.executeCommand('outdent')
+  setMode(Mode.NORMAL)
 })
 
 // clipboard

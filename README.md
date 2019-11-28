@@ -65,21 +65,23 @@ ZenVim have 4 mode.
 
 ### Others
 
-| Key      | Mode                        | Description |
-| -------- | --------------------------- | ----------- |
-| u        | NORMAL, VISUAL, VISUAL_LINE | Undo        |
-| Ctrl + r | NORMAL, VISUAL, VISUAL_LINE | Redo        |
-| >>       | NORMAL, VISUAL, VISUAL_LINE | Indent      |
-| <<       | NORMAL, VISUAL, VISUAL_LINE | Outent      |
+| Key      | Mode                        | Description                  |
+| -------- | --------------------------- | ---------------------------- |
+| u        | NORMAL, VISUAL, VISUAL_LINE | Undo                         |
+| Ctrl + r | NORMAL, VISUAL, VISUAL_LINE | Redo                         |
+| >>       | NORMAL                      | Indent                       |
+| >        | VISUAL, VISUAL_LINE         | Indent and Enter Normal Mode |
+| <<       | NORMAL                      | Outent                       |
+| <        | VISUAL, VISUAL_LINE         | Outent and Enter Normal Mode |
 
 ## Release Notes
 
 [CHANGELOG](./CHANGELOG.md)
 
+### 0.2.1
+
+- fix indent & outdent when visual mode
+
 ### 0.2.0
 
 - add indent & outdent
-
-### 0.1.3
-
-- fix `A`

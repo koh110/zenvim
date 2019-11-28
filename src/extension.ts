@@ -63,14 +63,6 @@ export function activate(context: vscode.ExtensionContext) {
     }
   })
 
-  register('zenvim.copy', () => {
-    const editor = vscode.window.activeTextEditor
-    if (!editor) {
-      return
-    }
-    yank(editor)
-  })
-
   function registerCtrlKey(commandName: string, key: string) {
     register(commandName, () => {
       try {
