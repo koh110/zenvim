@@ -70,6 +70,7 @@ bind(
   'd',
   editor => {
     cut(editor, { registerMode: RegisterMode.Line })
+    vscode.commands.executeCommand('editor.action.deleteLines')
     setMode(Mode.NORMAL)
   },
   { when: editor => hasSelection(editor) }

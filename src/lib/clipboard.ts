@@ -66,7 +66,6 @@ export async function cut(editor: TextEditor, options?: RegisterOptions) {
   await editor.edit(editBuilder => {
     // copy
     let text = editor.document.getText(editor.selection)
-    console.log(text)
     if (registerMode === RegisterMode.Line) {
       text += '\n'
     }

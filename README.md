@@ -78,6 +78,10 @@ ZenVim have 4 mode.
 
 [CHANGELOG](./CHANGELOG.md)
 
+### 0.2.2
+
+- fix yank and delete when visual line mode
+
 ### 0.2.1
 
 - fix indent & outdent when visual mode

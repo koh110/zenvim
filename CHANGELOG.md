@@ -2,6 +2,12 @@
 
 All notable changes to the "zenvim" extension will be documented in this file.
 
+## [0.2.2]
+
+### Changed
+
+- fix yank and delete when visual line mode
+
 ## [0.2.1]
 
 ### Changed
