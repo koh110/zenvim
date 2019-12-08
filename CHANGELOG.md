@@ -2,6 +2,12 @@
 
 All notable changes to the "zenvim" extension will be documented in this file.
 
+## [0.3.0]
+
+### Added
+
+- bind default cursorMove
+
 ## [0.2.2]
 
 ### Changed
