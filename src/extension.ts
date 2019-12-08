@@ -6,9 +6,9 @@ import {
   setStatusBarItem,
   type
 } from './state'
+import { cursorDown, cursorUp, cursorLeft, cursorRight } from './reigster'
 import { Mode, RegisterMode } from './types'
 import { moveCursor } from './lib/cursor'
-import { yank } from './lib/clipboard'
 import { parseKey } from './mapping/common'
 
 export function activate(context: vscode.ExtensionContext) {
@@ -29,11 +29,7 @@ export function activate(context: vscode.ExtensionContext) {
   }
 
   register('type', e => {
-    if (!vscode.window.activeTextEditor) {
-      return
-    }
-
-    if (state.mode === Mode.INSERT) {
+    if (!vscode.window.activeTextEditor || state.mode === Mode.INSERT) {
       vscode.commands.executeCommand('default:type', {
         text: e.text
       })
@@ -46,6 +42,11 @@ export function activate(context: vscode.ExtensionContext) {
       console.error(error)
     }
   })
+
+  register('cursorDown', cursorDown)
+  register('cursorUp', cursorUp)
+  register('cursorRight', cursorRight)
+  register('cursorLeft', cursorLeft)
 
   register('cut', () => {
     setRegisterMode(RegisterMode.Char)
