@@ -9,7 +9,8 @@ import {
   jumpToNextWord,
   jumpToPrevWord,
   jumpToTop,
-  jumpToBottom
+  jumpToBottom,
+  jumpCursor
 } from '../lib/cursor'
 import { yankLine, yankLineAndDelete, paste, cut } from '../lib/clipboard'
 import { hasSelection, lineSelection } from '../lib/editor'
@@ -91,10 +92,10 @@ bind('r', () => vscode.commands.executeCommand('redo'), {
   ctrl: true
 })
 bind('>>', () => {
-  vscode.commands.executeCommand('tab')
+  vscode.commands.executeCommand('editor.action.indentLines')
 })
 bind('<<', () => {
-  vscode.commands.executeCommand('outdent')
+  vscode.commands.executeCommand('editor.action.outdentLines')
 })
 
 // clipboard

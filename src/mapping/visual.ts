@@ -62,11 +62,11 @@ bind('r', () => vscode.commands.executeCommand('redo'), {
 })
 bind('>', editor => {
   jumpToCurrentStartOfLine(editor)
-  vscode.commands.executeCommand('tab')
+  vscode.commands.executeCommand('editor.action.indentLines')
   setMode(Mode.NORMAL)
 })
 bind('<', () => {
-  vscode.commands.executeCommand('outdent')
+  vscode.commands.executeCommand('editor.action.outdentLines')
   setMode(Mode.NORMAL)
 })
 

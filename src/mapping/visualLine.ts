@@ -47,13 +47,12 @@ bind('u', () => vscode.commands.executeCommand('undo'))
 bind('r', () => vscode.commands.executeCommand('redo'), {
   ctrl: true
 })
-bind('>', editor => {
-  jumpToCurrentStartOfLine(editor, getSelectOptions())
-  vscode.commands.executeCommand('tab')
+bind('>', () => {
+  vscode.commands.executeCommand('editor.action.indentLines')
   setMode(Mode.NORMAL)
 })
 bind('<', () => {
-  vscode.commands.executeCommand('outdent')
+  vscode.commands.executeCommand('editor.action.outdentLines')
   setMode(Mode.NORMAL)
 })
 
