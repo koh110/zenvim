@@ -2,6 +2,16 @@
 
 All notable changes to the "zenvim" extension will be documented in this file.
 
+## [0.4.0]
+
+### Added
+
+- cut on normal mode
+
+### Changed
+
+- hook backspace and enter
+
 ## [0.3.1]
 
 ### Changed

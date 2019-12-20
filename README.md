@@ -78,6 +78,11 @@ ZenVim have 4 mode.
 
 [CHANGELOG](./CHANGELOG.md)
 
+### 0.4.0
+
+- cut on normal mode
+- hook backspace and enter
+
 ### 0.3.1
 
 - fix indent in normal mode
@@ -85,7 +90,3 @@ ZenVim have 4 mode.
 ### 0.3.0
 
 - bind default cursorMove
-
-### 0.2.2
-
-- fix yank and delete when visual line mode
