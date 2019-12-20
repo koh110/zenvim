@@ -64,6 +64,26 @@ export function activate(context: vscode.ExtensionContext) {
     }
   })
 
+  register('zenvim.backspace', () => {
+    const editor = vscode.window.activeTextEditor
+    if (!editor) {
+      return
+    }
+    if (state.mode === Mode.NORMAL) {
+      moveCursor({ to: 'left' })
+      return
+    }
+    vscode.commands.executeCommand('deleteLeft')
+  })
+
+  register('zenvim.enter', () => {
+    const editor = vscode.window.activeTextEditor
+    if (!editor) {
+      return
+    }
+    moveCursor({ to: 'down' })
+  })
+
   function registerCtrlKey(commandName: string, key: string) {
     register(commandName, () => {
       try {

@@ -21,6 +21,16 @@
   "contributes": {
     "keybindings": [
       {
+        "key": "backspace",
+        "command": "zenvim.backspace",
+        "when": "textInputFocus && !editorReadonly"
+      },
+      {
+        "key": "Enter",
+        "command": "zenvim.enter",
+        "when": "textInputFocus && !editorReadonly && zenvim.mode:normal"
+      },
+      {
         "key": "Escape",
         "command": "zenvim.escapeKey",
         "when": "editorTextFocus && !zenvim.mode:normal"
