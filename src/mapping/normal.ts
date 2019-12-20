@@ -102,6 +102,9 @@ bind('<<', () => {
 bind('yy', editor => yankLine(editor), {
   when: editor => !hasSelection(editor)
 })
+bind('d', editor => cut(editor), {
+  when: editor => hasSelection(editor)
+})
 bind('dd', editor => yankLineAndDelete(editor), {
   when: editor => !hasSelection(editor)
 })
