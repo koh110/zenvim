@@ -2,6 +2,16 @@
 
 All notable changes to the "zenvim" extension will be documented in this file.
 
+## [0.4.1]
+
+### Changed
+
+- fix for Japanese charactor in normal mode
+
+### Added
+
+- cut on normal mode
+
 ## [0.4.0]
 
 ### Added
