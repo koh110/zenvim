@@ -2,7 +2,7 @@
   "name": "zenvim",
   "displayName": "zenvim",
   "description": "vim for vscode",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "publisher": "koh110",
   "engines": {
     "vscode": "^1.40.0"
