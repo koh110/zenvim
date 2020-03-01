@@ -21,9 +21,15 @@ export const state: State = {
 }
 
 export function type(editor: vscode.TextEditor, text: string) {
-  let composedText = state.composedText + text.trim()
+  if (state.mode === Mode.INSERT) {
+    vscode.commands.executeCommand('default:type', {
+      text: text
+    })
+    return
+  }
 
-  if (!state.isInComposition && hasCommand(state.mode, composedText)) {
+  let composedText = state.composedText + text.trim()
+  if (hasCommand(state.mode, composedText)) {
     const res = run(state.mode, editor, composedText)
     if (res.run) {
       composedText = ''
@@ -98,8 +104,10 @@ export function setAnchorPosition(position: vscode.Position) {
 }
 
 export function replacePrevChar(text: string, replaceCharCnt: number) {
-  if (state.mode !== Mode.NORMAL) {
-    return false
+  if (state.isInComposition) {
+    const { composedText } = state
+    state.composedText =
+      composedText.substr(0, composedText.length - replaceCharCnt) + text
   }
   vscode.commands.executeCommand('default:replacePreviousChar', {
     text: text,
@@ -108,10 +116,16 @@ export function replacePrevChar(text: string, replaceCharCnt: number) {
 }
 
 export function compositionStart() {
+  if (state.mode === Mode.INSERT) {
+    return
+  }
   state.isInComposition = true
 }
 
 export function compositionEnd(editor: vscode.TextEditor) {
+  if (state.mode === Mode.INSERT) {
+    return
+  }
   state.isInComposition = false
 
   type(editor, state.composedText)

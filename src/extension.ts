@@ -32,10 +32,7 @@ export function activate(context: vscode.ExtensionContext) {
   }
 
   register('type', e => {
-    if (!vscode.window.activeTextEditor || state.mode === Mode.INSERT) {
-      vscode.commands.executeCommand('default:type', {
-        text: e.text
-      })
+    if (!vscode.window.activeTextEditor) {
       return
     }
 
