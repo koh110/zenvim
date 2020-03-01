@@ -4,7 +4,10 @@ import {
   setMode,
   setRegisterMode,
   setStatusBarItem,
-  type
+  type,
+  replacePrevChar,
+  compositionStart,
+  compositionEnd
 } from './state'
 import { cursorDown, cursorUp, cursorLeft, cursorRight } from './reigster'
 import { Mode, RegisterMode } from './types'
@@ -41,6 +44,27 @@ export function activate(context: vscode.ExtensionContext) {
     } catch (error) {
       console.error(error)
     }
+  })
+
+  register('replacePreviousChar', args => {
+    if (!vscode.window.activeTextEditor) {
+      return
+    }
+    replacePrevChar(args.text, args.replaceCharCnt)
+  })
+
+  register('compositionStart', () => {
+    if (!vscode.window.activeTextEditor) {
+      return
+    }
+    compositionStart()
+  })
+
+  register('compositionEnd', () => {
+    if (!vscode.window.activeTextEditor) {
+      return
+    }
+    compositionEnd(vscode.window.activeTextEditor)
   })
 
   register('cursorDown', cursorDown)

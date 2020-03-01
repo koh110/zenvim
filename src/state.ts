@@ -8,6 +8,7 @@ type State = {
   statusBarItem: vscode.StatusBarItem | null
   anchorPosition: vscode.Position
   registerMode: RegisterMode
+  isInComposition: boolean
 }
 
 export const state: State = {
@@ -15,13 +16,14 @@ export const state: State = {
   composedText: '',
   statusBarItem: null,
   anchorPosition: new vscode.Position(0, 0),
-  registerMode: RegisterMode.Char
+  registerMode: RegisterMode.Char,
+  isInComposition: false
 }
 
 export function type(editor: vscode.TextEditor, text: string) {
   let composedText = state.composedText + text.trim()
 
-  if (hasCommand(state.mode, composedText)) {
+  if (!state.isInComposition && hasCommand(state.mode, composedText)) {
     const res = run(state.mode, editor, composedText)
     if (res.run) {
       composedText = ''
@@ -93,4 +95,24 @@ export function setStatusBarItem(statusBar: vscode.StatusBarItem) {
 
 export function setAnchorPosition(position: vscode.Position) {
   state.anchorPosition = new vscode.Position(position.line, position.character)
+}
+
+export function replacePrevChar(text: string, replaceCharCnt: number) {
+  if (state.mode !== Mode.NORMAL) {
+    return false
+  }
+  vscode.commands.executeCommand('default:replacePreviousChar', {
+    text: text,
+    replaceCharCnt: replaceCharCnt
+  })
+}
+
+export function compositionStart() {
+  state.isInComposition = true
+}
+
+export function compositionEnd(editor: vscode.TextEditor) {
+  state.isInComposition = false
+
+  type(editor, state.composedText)
 }
